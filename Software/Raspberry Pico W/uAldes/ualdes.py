@@ -61,13 +61,6 @@ ITEMS_MAPPING = {
     "Conso_eau": {"Index": 0, "Type": 114, "Publish": True},            # Somme (calculée)
 }
 
-# Auto-génération des byte_01 à byte_73 et leur version hex brute
-for i in range(1, 74):
-    key = f"byte_{i:02d}"
-    key_raw = f"byte_{i:02d}_raw"
-    ITEMS_MAPPING[key] = {"Index": i, "Type": 0, "Publish": True}      # Valeur décodée
-    ITEMS_MAPPING[key_raw] = {"Index": i, "Type": -1, "Publish": True}  # Hex brute
-
 def aldes_checksum(data):
     return -sum(data[:-1]) & 0xFF
 
