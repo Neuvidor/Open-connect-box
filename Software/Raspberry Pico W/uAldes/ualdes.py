@@ -171,6 +171,9 @@ def frame_decode(data):
                     properties["Index"]
                 )
                 decoded_frame[item] = decoded_value
+        # Niveau ECS : nombre de pictogrammes remplis (0 a 3)
+        decoded_frame["ECS_niveau"] = data[9] & 0x03
+
     else:
         decoded_frame = None
         print("Invalid frame")
