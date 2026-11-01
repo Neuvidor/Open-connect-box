@@ -40,6 +40,7 @@ Version: 1.1.0
 ITEMS_MAPPING = {
     "Soft": {"Index": 4, "Type": -1, "Publish": True},
     "Entree_HC": {"Index": 9, "Type": 0, "Publish": True},
+    "ECS_niveau": {"Index": 9, "Type": 5, "Publish": True},
     "Etat": {"Index": 6, "Type": 0, "Publish": True},
     "Comp_C": {"Index": 28, "Type": 1, "Publish": True},
     "Comp_R": {"Index": 29, "Type": 1, "Publish": True},
@@ -130,6 +131,8 @@ def decode_value(value, type, data=None, index=None):
         return value * 10
     elif type == 4:
         return value * 2 - 1
+    elif type == 5:
+        return value & 0x03
 
     # --- Nouveaux compteurs en W·min ---
     elif type in (110, 111, 112) and data is not None and index is not None:
@@ -171,9 +174,6 @@ def frame_decode(data):
                     properties["Index"]
                 )
                 decoded_frame[item] = decoded_value
-        # Niveau ECS : nombre de pictogrammes remplis (0 a 3)
-        decoded_frame["ECS_niveau"] = data[9] & 0x03
-
     else:
         decoded_frame = None
         print("Invalid frame")
