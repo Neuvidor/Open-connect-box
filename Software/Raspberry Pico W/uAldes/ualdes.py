@@ -43,6 +43,7 @@ ITEMS_MAPPING = {
     "ECS_niveau": {"Index": 9, "Type": 5, "Publish": True},
     "Etat": {"Index": 6, "Type": 0, "Publish": True},
     "Etat_resistance": {"Index": 6, "Type": 6, "Publish": True},
+    "Etat_pac": {"Index": 6, "Type": 7, "Publish": True},
     "Comp_C": {"Index": 28, "Type": 1, "Publish": True},
     "Comp_R": {"Index": 29, "Type": 1, "Publish": True},
     "T_hp": {"Index": 32, "Type": 2, "Publish": True},
@@ -129,6 +130,8 @@ def decode_value(value, type, data=None, index=None):
         return value & 0x03
     elif type == 6:
         return bool(value & 0x40)
+    elif type == 7:
+        return bool(value & 0x30)
 
     # --- Nouveaux compteurs en W·min ---
     elif type in (110, 111, 112) and data is not None and index is not None:
