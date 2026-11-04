@@ -54,6 +54,11 @@ ITEMS_MAPPING = {
     "Etat_resistance": {"Index": 6, "Type": 6, "Publish": True},
     "Etat_pac": {"Index": 6, "Type": 7, "Publish": True},
     "Mode_chauffe": {"Index": 6, "Type": 8, "Publish": True},
+
+    # Compteurs 16 bits Little Endian, decrementent ~1 fois par minute.
+    # Fonction physique encore inconnue (indices 18-19 et 23-24).
+    "Compteur_1_min": {"Index": 18, "Type": 9, "Publish": True},
+    "Compteur_2_min": {"Index": 23, "Type": 9, "Publish": True},
     "Comp_C": {"Index": 28, "Type": 1, "Publish": True},
     "Comp_R": {"Index": 29, "Type": 1, "Publish": True},
     "T_hp": {"Index": 32, "Type": 2, "Publish": True},
@@ -144,6 +149,12 @@ def decode_value(value, type, data=None, index=None):
         return bool(value & 0x30)
     elif type == 8:
         return value & 0x07
+    elif type == 9 and data is not None and index is not None:
+        # Entier non signe sur 16 bits, Little Endian.
+        try:
+            return data[index] | (data[index + 1] << 8)
+        except IndexError:
+            return None
 
     # --- Nouveaux compteurs en W·min ---
     elif type in (110, 111, 112) and data is not None and index is not None:
