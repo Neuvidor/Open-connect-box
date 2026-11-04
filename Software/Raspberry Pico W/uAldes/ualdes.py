@@ -61,6 +61,8 @@ ITEMS_MAPPING = {
     "Compteur_2_min": {"Index": 23, "Type": 9, "Publish": True},
     "Comp_C": {"Index": 28, "Type": 1, "Publish": True},
     "Comp_R": {"Index": 29, "Type": 1, "Publish": True},
+    # Puissance electrique PAC : octet 30 x 2 W (hors VMC/resistance).
+    "Pac_Puissance_Elec": {"Index": 30, "Type": 10, "Publish": True},
     # Consigne ECS verifiee sur 50, 51, 52, 52.5 et 53.5 C (index 8 / 2 - 20).
     "T_consigne": {"Index": 8, "Type": 2, "Publish": True},
     "T_hp": {"Index": 32, "Type": 2, "Publish": True},
@@ -148,6 +150,8 @@ def decode_value(value, type, data=None, index=None):
         return value * 0.5 - 20
     elif type == 3:
         return value * 10
+    elif type == 10:
+        return value * 2
     elif type == 4:
         return value * 2 - 1
     elif type == 5:
