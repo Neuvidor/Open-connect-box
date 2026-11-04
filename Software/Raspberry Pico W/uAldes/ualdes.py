@@ -76,6 +76,13 @@ ITEMS_MAPPING = {
     "Conso_resistance": {"Index": 57, "Type": 112, "Publish": True},    # Compteur 3 : b[57..60]
     "Conso_totale": {"Index": 0, "Type": 113, "Publish": True},         # Somme (calculée)
     "Conso_eau": {"Index": 0, "Type": 114, "Publish": True},            # Somme (calculée)
+
+    # Indicateur d'entretien du filtre (0-100 %), index 65.
+    # Confirme par reset physique : la valeur est passee de 100 a 0.
+    # Progression observee : +1 point toutes les 57 h 36 environ,
+    # soit 100 points en 240 jours (~8 mois). Duree theorique issue des logs,
+    # pas une periodicite de remplacement prescrite par Aldes.
+    "Filtre_usure": {"Index": 65, "Type": 0, "Publish": True},
 }
 
 def aldes_checksum(data):
