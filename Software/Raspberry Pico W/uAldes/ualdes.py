@@ -37,6 +37,15 @@ License: MIT
 Version: 1.1.0
 """
 
+# Structure retenue pour les trames de telemetrie Aldes (indices a partir de 0) :
+# - Index 2 : champ de longueur presume. Exemple : 0x4C = 76 en decimal,
+#   soit 76 octets avant le checksum et 77 octets recus, checksum inclus.
+# - Index 75 : marqueur de fin de trame retenu, valeur observee 0x32,
+#   situe immediatement avant le checksum.
+# - Index 76 : checksum, dernier octet de la trame de 77 octets.
+# Les roles « longueur » et « marqueur de fin » sont des conventions
+# d'analyse retenues, encore a confirmer avec d'autres formats de trames.
+
 ITEMS_MAPPING = {
     "Soft": {"Index": 4, "Type": -1, "Publish": True},
     "Entree_HC": {"Index": 9, "Type": 0, "Publish": True},
