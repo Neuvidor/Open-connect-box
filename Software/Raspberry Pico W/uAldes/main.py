@@ -39,6 +39,33 @@ from config import MQTT_CONFIG,MQTT_TOPICS, WIFI_NETWORKS,UALDES_OPTIONS
 RELEASE_DATE = "20_05_2025"
 VERSION = "2.1"
 
+def get_ualdes_git_version():
+  """Git blob SHA-1 du fichier ualdes.py present lors du demarrage."""
+  try:
+    import hashlib
+    import binascii
+    import os
+
+    path = "ualdes.py"
+    size = os.stat(path)[6]
+    digest = hashlib.sha1()
+    digest.update(("blob %d" % size).encode())
+    digest.update(bytes((0,)))
+    with open(path, "rb") as source:
+      while True:
+        chunk = source.read(512)
+        if not chunk:
+          break
+        digest.update(chunk)
+    return binascii.hexlify(digest.digest())[:12].decode()
+  except Exception as error:
+    print("Empreinte Git ualdes indisponible:", error)
+    return "indisponible"
+
+
+# Calcule une fois apres import ualdes : identifie le code charge au boot.
+UALDES_GIT_VERSION = get_ualdes_git_version()
+
 # Example of serial input format
 example_serial_input = [0x33, 0xff, 0x4c, 0x33, 0x26, 0x00, 0x01, 0x01, 0x98, 0x03, 0x00, 0x00, 0x88, 0x00, 0x00, 0x28, 
                        0x95, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 
@@ -102,6 +129,13 @@ def connect_and_subscribe():
   client.connect(timeout=5)
   client.subscribe(MQTT_TOPICS["command"])
   print('Connected to %s, subscribed to %s topic' % (MQTT_CONFIG["broker"], MQTT_TOPICS["command"]))
+  # Topic retain, publie au demarrage et a chaque reconnexion MQTT.
+  # Une erreur de versionnement ne doit pas interrompre la passerelle Aldes.
+  try:
+    client.publish(MQTT_TOPICS["main"] + "ualdes_version", UALDES_GIT_VERSION, retain=True)
+    print("Version ualdes.py (Git blob):", UALDES_GIT_VERSION)
+  except Exception as error:
+    print("Publication version MQTT impossible:", error)
   return client
 
 def sub_cb(topic, msg):
