@@ -66,6 +66,8 @@ ITEMS_MAPPING = {
     "Comp_R": {"Index": 29, "Type": 1, "Publish": True},
     # Puissance electrique PAC : octet 30 x 2 W (hors VMC/resistance).
     "Pac_Puissance_Elec": {"Index": 30, "Type": 10, "Publish": True},
+    # Index 31 : valeurs observees 0x00, 0x01 et 0x02.
+    # Index 35 : toujours nul (0x00) dans les donnees examinees.
     # Consigne ECS verifiee sur 50, 51, 52, 52.5 et 53.5 C (index 8 / 2 - 20).
     "T_consigne": {"Index": 8, "Type": 2, "Publish": True},
     "T_hp": {"Index": 32, "Type": 2, "Publish": True},
