@@ -48,7 +48,7 @@ Version: 1.1.0
 
 ITEMS_MAPPING = {
     "Soft": {"Index": 4, "Type": -1, "Publish": True},
-    "Entree_HC": {"Index": 9, "Type": 0, "Publish": True},
+    "Entree_HC": {"Index": 25, "Type": 0, "Publish": True},
     "ECS_niveau": {"Index": 9, "Type": 5, "Publish": True},
     "Etat": {"Index": 6, "Type": 0, "Publish": True},
     "Etat_resistance": {"Index": 6, "Type": 6, "Publish": True},
