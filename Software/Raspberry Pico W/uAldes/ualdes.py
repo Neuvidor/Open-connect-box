@@ -52,8 +52,7 @@ ITEMS_MAPPING = {
     "ECS_niveau": {"Index": 9, "Type": 5, "Publish": True},
     "Etat": {"Index": 6, "Type": 0, "Publish": True},
     "Etat_resistance": {"Index": 6, "Type": 6, "Publish": True},
-    "Etat_pac": {"Index": 6, "Type": 7, "Publish": True},
-    # Commande PAC (octet 6, masque 0x30); Etat_pac reste un alias historique.
+    # Commande PAC (octet 6, masque 0x30).
     "PAC_commande": {"Index": 6, "Type": 7, "Publish": True},
     # Fonctionnement effectif PAC (octet 27 : 0x00 actif, 0xFF arrete).
     "PAC_active": {"Index": 27, "Type": 11, "Publish": True},
