@@ -53,6 +53,10 @@ ITEMS_MAPPING = {
     "Etat": {"Index": 6, "Type": 0, "Publish": True},
     "Etat_resistance": {"Index": 6, "Type": 6, "Publish": True},
     "Etat_pac": {"Index": 6, "Type": 7, "Publish": True},
+    # Commande PAC (octet 6, masque 0x30); Etat_pac reste un alias historique.
+    "PAC_commande": {"Index": 6, "Type": 7, "Publish": True},
+    # Fonctionnement effectif PAC (octet 27 : 0x00 actif, 0xFF arrete).
+    "PAC_active": {"Index": 27, "Type": 11, "Publish": True},
     "Mode_chauffe": {"Index": 6, "Type": 8, "Publish": True},
 
     # Compteurs 16 bits Little Endian, decrementent ~1 fois par minute.
@@ -152,6 +156,8 @@ def decode_value(value, type, data=None, index=None):
         return value * 10
     elif type == 10:
         return value * 2
+    elif type == 11:
+        return value == 0x00
     elif type == 4:
         return value * 2 - 1
     elif type == 5:
