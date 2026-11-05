@@ -51,7 +51,11 @@ ITEMS_MAPPING = {
     "Entree_HC": {"Index": 25, "Type": 0, "Publish": True},
     "ECS_niveau": {"Index": 9, "Type": 5, "Publish": True},
     "Etat": {"Index": 6, "Type": 0, "Publish": True},
-    "Etat_resistance": {"Index": 6, "Type": 6, "Publish": True},
+    # Resistance : commande sur l’octet 6, retour logique suppose sur l’octet 9.
+    # Les deux indicateurs sont identiques dans les trames analysees ;
+    # l’independance du retour physique n’est pas demontree.
+    "Resistance_commande": {"Index": 6, "Type": 6, "Publish": True},
+    "Resistance_active": {"Index": 9, "Type": 12, "Publish": True},
     # Commande PAC (octet 6, masque 0x30).
     "PAC_commande": {"Index": 6, "Type": 7, "Publish": True},
     # Fonctionnement effectif PAC (octet 27 : 0x00 actif, 0xFF arrete).
@@ -165,6 +169,8 @@ def decode_value(value, type, data=None, index=None):
         return value & 0x03
     elif type == 6:
         return bool(value & 0x40)
+    elif type == 12:
+        return bool(value & 0x08)
     elif type == 7:
         return bool(value & 0x30)
     elif type == 8:
